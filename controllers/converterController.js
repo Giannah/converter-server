@@ -1,12 +1,10 @@
 const convert = require('../utils/converter')
 
 class ConverterController {
-  clients = []
-  conversions = []
-
-  constructor(clients, conversions) {
-    this.clients = clients
-    this.conversions = conversions
+  constructor() {
+    this.clients = []
+    this.conversions = []
+    this.convertInput = this.convertInput.bind(this)
     this.sendConversionsEventsToAll = this.sendConversionsEventsToAll.bind(this)
     this.getStatus = this.getStatus.bind(this)
     this.conversionsEventsHandler = this.conversionsEventsHandler.bind(this)
@@ -16,19 +14,17 @@ class ConverterController {
     this.clients.forEach((client) => client.res.write(`data: ${JSON.stringify(last)}\n\n`))
   }
 
-  convertInput(req, res) {
+  convertInput(req, res, next) {
     const input = req.body.input
-    setTimeout(() => {
-      try {
-        const result = convert(input)
-        res.status(200).json(result)
-        const message = `${input} converted to ${result}`
-        this.conversions.push({ message })
-        return this.sendConversionsEventsToAll(message)
-      } catch (error) {
-        res.status(400).end()
-      }
-    }, 2000)
+    try {
+      const result = convert(input)
+      res.json(result)
+      const message = `${input} converted to ${result}`
+      this.conversions.push({ message })
+      return this.sendConversionsEventsToAll(message)
+    } catch (error) {
+      res.status(400).end()
+    }
   }
 
   getStatus(req, res) {
