@@ -7,8 +7,6 @@ function convert(input) {
 
   if (value < 1) {
     value = 1
-  } else if (value > 3999) {
-    value = 3999
   }
 
   for (let i = 0; i < arabicNums.length; i++) {

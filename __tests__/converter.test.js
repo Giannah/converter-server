@@ -65,7 +65,7 @@ describe('Converter', () => {
     })
   })
 
-  describe('Exceptions rules', () => {
+  describe("Can't have a character more than 3 times except for M", () => {
     it.each([
       [3, 'III'],
       [4, 'IV'],
@@ -76,7 +76,7 @@ describe('Converter', () => {
       [300, 'CCC'],
       [400, 'CD'],
       [3000, 'MMM'],
-      //   [4000, 'MMMM'],
+      [4000, 'MMMM'],
     ])('when given %i returns %s', (a, expected) => {
       expect(convert(a)).toEqual(expected)
     })
