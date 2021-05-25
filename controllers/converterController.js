@@ -20,7 +20,7 @@ class ConverterController {
       const result = convert(input)
       res.json(result)
       const message = `${input} converted to ${result}`
-      this.conversions.push({ message })
+      this.conversions.push(message)
       return this.sendConversionsEventsToAll(message)
     } catch (error) {
       res.status(400).end()
