@@ -18,9 +18,9 @@ class ConverterController {
     const input = req.body.input
     try {
       const result = convert(input)
-      res.json(result)
       const message = `${input} converted to ${result}`
       this.conversions.push(message)
+      res.status(200).json(result)
       return this.sendConversionsEventsToAll(message)
     } catch (error) {
       res.status(400).end()
@@ -59,7 +59,7 @@ class ConverterController {
       this.clients.push(newClient)
 
       req.on('close', () => {
-        this.clients = this.clients.filter((client) => client.id !== clientID)
+        this.clients.filter((client) => client.id !== clientID)
       })
     } catch (error) {
       console.log(error)
